@@ -3,6 +3,9 @@ const { initializeDatabase } = require("./db/db.connect");
 const Book = require("./models/books.models");
 initializeDatabase();
 const app = express();
+const cors = require("cors");
+
+app.use(cors());
 const PORT = 3000;
 
 app.use(express.json());
