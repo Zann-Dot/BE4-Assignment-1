@@ -26,10 +26,6 @@ app.post("/books", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 //Ex3
 app.get("/books", async (req, res) => {
   const books = await Book.find();
@@ -112,7 +108,7 @@ app.post("/books/:bookId", async (req, res) => {
     book = await Book.findByIdAndUpdate(bookId, rating, { new: true });
     return res.status(200).json({
       message: "Rating updated successfully",
-      book: book,
+      book,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -137,7 +133,7 @@ app.post("/books/update/:title", async (req, res) => {
     book = await Book.findOneAndUpdate({ title }, { rating }, { new: true });
     return res.status(200).json({
       message: "Rating updated successfully",
-      book: book,
+      book,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -160,4 +156,8 @@ app.delete("/books/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
