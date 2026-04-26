@@ -1,13 +1,25 @@
 const mongoose = require("mongoose");
+const capitalizeTitle = (str) => {
+  if (!str) return str;
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(" ");
+};
+
 const bookSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
+      trim: true,
+      set: capitalizeTitle,
     },
     author: {
       type: String,
       required: true,
+      set: capitalizeTitle,
     },
     publishedYear: {
       type: Number,
@@ -16,31 +28,17 @@ const bookSchema = new mongoose.Schema(
     genre: [
       {
         type: String,
-        enum: [
-          "Fiction",
-          "Non-Fiction",
-          "Mystery",
-          "Thriller",
-          "Science Fiction",
-          "Fantasy",
-          "Romance",
-          "Historical",
-          "Biography",
-          "Self-help",
-          "Other",
-          "Non-fiction",
-          "Business",
-          "Autobiography",
-        ],
       },
     ],
     language: {
       type: String,
       required: true,
+      set: capitalizeTitle,
     },
     country: {
       type: String,
       default: "United States",
+      set: capitalizeTitle,
     },
     rating: {
       type: Number,
@@ -48,7 +46,10 @@ const bookSchema = new mongoose.Schema(
       max: 10,
       default: 0,
     },
-    summary: String,
+    summary: {
+      type: String,
+      set: capitalizeTitle,
+    },
     coverImageUrl: String,
   },
   { timestamps: true },

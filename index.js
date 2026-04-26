@@ -5,21 +5,30 @@ initializeDatabase();
 const app = express();
 const cors = require("cors");
 
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 const PORT = 3000;
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 //Ex1
 app.post("/books", async (req, res) => {
   try {
-    const book = req.body;
+    const book = await Book.findOne({ title: req.body.title }).collation({
+      locale: "en",
+      strength: 2,
+    });
 
-    if (!book) {
-      return res.status(400).json({ error: "Book data is required" });
+    if (book) {
+      return res.status(400).json({ error: "Book exists already" });
     }
 
-    const newBook = await Book.create(book);
+    const newBook = await Book.create(req.body);
     res.status(201).json({ message: "Book added successfully", book: newBook });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -28,11 +37,15 @@ app.post("/books", async (req, res) => {
 
 //Ex3
 app.get("/books", async (req, res) => {
-  const books = await Book.find();
-  if (!books) {
-    return res.status(404).json({ error: "No books found" });
+  try {
+    const books = await Book.find();
+    if (books.length === 0) {
+      return res.status(404).json({ error: "No books found" });
+    }
+    res.status(200).send(books);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(200).send(books);
 });
 
 //Ex4
