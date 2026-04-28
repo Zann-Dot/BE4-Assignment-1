@@ -157,11 +157,10 @@ app.post("/books/update/:title", async (req, res) => {
 app.delete("/books/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const book = await Book.findById(id);
+    const book = await Book.findByIdAndDelete(id);
     if (!book) {
       return res.status(404).json({ error: "Book does not exist" });
     }
-    await Book.findByIdAndDelete(id);
     return res.status(200).json({
       message: "Book deleted successfully",
       book,
