@@ -161,6 +161,7 @@ app.delete("/books/:id", async (req, res) => {
     if (!book) {
       return res.status(404).json({ error: "Book does not exist" });
     }
+
     return res.status(200).json({
       message: "Book deleted successfully",
       book,
