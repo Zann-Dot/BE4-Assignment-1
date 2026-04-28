@@ -3,7 +3,6 @@ const Post = require("./models/post.models");
 const Users = require("./models/users.model");
 initializeDatabase();
 
-<<<<<<< HEAD
 const corsOptions = {
   origin: "*",
   credentials: true,
@@ -29,23 +28,11 @@ app.post("/books", async (req, res) => {
 
     const newBook = await Book.create(req.body);
     res.status(201).json({ message: "Book added successfully", book: newBook });
-=======
-const userData = {
-  name: "John",
-  email: "john@gamska.com",
-};
-const addUser = async () => {
-  try {
-    const user = new Users(userData);
-    await user.save();
-    console.log("User added", user);
->>>>>>> 8214978eb310da7557c35f607386337c1e39271e
   } catch (error) {
     console.log(error);
   }
-};
+});
 
-<<<<<<< HEAD
 //Ex3
 app.get("/books", async (req, res) => {
   try {
@@ -61,14 +48,6 @@ app.get("/books", async (req, res) => {
 
 //Ex4
 app.get("/books/title/:title", async (req, res) => {
-=======
-const postData = {
-  title: "Greetings",
-  content: "Have a good day",
-  author: "69eb2055f3df0ac0c4f12701",
-};
-const addPost = async () => {
->>>>>>> 8214978eb310da7557c35f607386337c1e39271e
   try {
     const posts = new Post(postData);
     await posts.save();
@@ -76,7 +55,7 @@ const addPost = async () => {
   } catch (error) {
     console.log(error);
   }
-};
+});
 // addPost();
 
 const getPosts = async () => {
